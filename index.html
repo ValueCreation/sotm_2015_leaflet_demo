@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Esri Leaflet Demo</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+        <meta name="description" content="shizuoka osm demo" />
+        <meta name="keywords" content="osm, shizuoka, gis, esri" />
+        <link rel="shortcut icon" href="../favicon.ico"> 
+
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" href="css/demo.css" />
+        <link rel="stylesheet" type="text/css" href='http://fonts.googleapis.com/css?family=Josefin+Slab:400,700' />
+
+        <!-- Include Leaflet.markercluster via rawgit.com, do not use in production -->
+        <link rel="stylesheet" type="text/css" href="css/MarkerCluster.Default.css">
+        <link rel="stylesheet" type="text/css" href="css/MarkerCluster.css">
+
+        <!-- Load Leaflet from CDN-->
+        <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />  
+
+        <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+        <script type="text/javascript" src="js/lib/leaflet.markercluster.js"></script>
+        <script type="text/javascript" src="js/lib/leaflet-heat.js"></script>
+
+        <!-- Load Esri Leaflet from CDN -->
+        <script type="text/javascript" src="//cdn.jsdelivr.net/leaflet.esri/1.0.0/esri-leaflet.js"></script>
+
+        <!-- Load Clustered Feature Layer from CDN -->
+        <script src="//cdn.jsdelivr.net/leaflet.esri.clustered-feature-layer/1.0.2/esri-leaflet-clustered-feature-layer.js"></script>
+        <!-- Load Heatmap Feature Layer from CDN -->
+        <script src="//cdn.jsdelivr.net/leaflet.esri.heatmap-feature-layer/1.0.2/esri-leaflet-heatmap-feature-layer.js"></script>
+
+		<noscript>
+			<style>
+				.st-accordion ul li{
+					height:auto;
+				}
+				.st-accordion ul li > a span{
+					visibility:hidden;
+				}
+			</style>
+		</noscript>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+        <script type="text/javascript" src="js/lib/jquery.blockUI.js"></script>
+		<script type="text/javascript" src="js/lib/jquery.accordion.js"></script>
+		<script type="text/javascript" src="js/lib/jquery.easing.1.3.js"></script>
+        <script type="text/javascript">
+            $(function() {
+				$('#st-accordion').accordion();
+            });
+        </script>
+    </head>
+    <body onload="init()">
+        <div class="container">
+
+            <div class="wrapper">
+
+                <div id="st-accordion" class="st-accordion">
+                    <ul>
+                        <li>
+                            <a href="#">BaseMap<span class="st-arrow">Open or Close</span></a>
+                            <div class="st-content">
+                              <table class="basemap">
+                              <tr>
+                                <td width="20px"><input type="radio" id="basemap1" name="optionsBasemap" value="osm" checked="checked" /></td>
+                                <td><p>OpenStreetMap</p></td>
+                              </tr>
+                              <tr>
+                                <td><input type="radio" id="basemap2" name="optionsBasemap" value="gsimap" /></td>
+                                <td><p>地理院地図</p></td>
+                              </tr>
+                              <tr>
+                                <td><input type="radio" id="basemap3" name="optionsBasemap" value="Topographic" /></td>
+                                <td><p>地形図</p></td>
+                              </tr>
+                              <tr>
+                                <td><input type="radio" id="basemap4" name="optionsBasemap" value="Streets" /></td>
+                                <td><p>道路地図</p></td>
+                              </tr>
+                              <tr>
+                                <td><input type="radio" id="basemap5" name="optionsBasemap" value="Imagery" /></td>
+                                <td><p>衛星写真</p></td>
+                              </tr>
+                              </table>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#">Osm Data<span class="st-arrow">Open or Close</span></a>
+                            <div class="st-content">
+                              <table class="featureLayer">
+                              <tr>
+                                <td width="20px"><input type="checkbox" id="amenity" name="category" value="osm"  checked="checked" /></td>
+                                <td><p>静岡県施設</p></td>
+                              </tr>
+　　　　　　　　　　　　　　　　　　　　　　　　</table>
+                              <br/>
+                              <table class="featureLayer">
+                              <tr>
+                              <td><p>施設:</p></td>
+                              <td>
+                                  <select id="select_amenity">
+                                    <option value='school' selected="selected">school</option>
+                                    <option value='doctors'>doctors</option>
+                                    <option value='townhall'>townhall</option>
+                                    <option value='post_office'>post_office</option>
+                                    <option value='cinema'>cinema</option>
+                                  </select>
+                              </td>
+                              </tr>
+                              <tr><td><br/></td><td></td></tr>
+                              <tr>
+                              <td><p>名前:</p></td>
+                              <td><input type="text" name="amenityName" id="amenityName" value="" /></td>                              
+                              </tr>
+                              <tr><td><br/></td><td></td></tr>
+                              <td></br></td>
+                              <td><input type="button" name="amenityBtn" id="amenityBtn" value="検索" /></td>                              
+                              </tr>
+                              </table> 
+                              <br/> 
+                              
+                              <table class="featureLayer">
+                              <tr>
+                                <td width="20px"><input type="checkbox" id="clustered" name="category" value="clustered" /></td>
+                                <td><p>静岡県施設 (クラスタリング)</p></td>
+                              </tr>
+　　　　　　　　　　　　　　　　　　　　　　　　</table>
+                              <table class="featureLayer">
+                              <tr>
+                                <td width="20px"><input type="checkbox" id="heatmap" name="category" value="heatmap" /></td>
+                                <td><p>静岡県施設 (ヒートマップ)</p></td>
+                              </tr>
+　　　　　　　　　　　　　　　　　　　　　　　　</table>
+
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#">Analysis<span class="st-arrow">Open or Close</span></a>
+                            <div class="st-content">
+                                <p>O my friend - but it is too much for my strength - I sink under the weight of the splendour of these visions!</p>
+                                <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.</p>
+                                <p>I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div id="map"></div>
+    	<script type="text/javascript" src="js/esri-leaflet.js"></script>
+    </body>
+</html>	
