@@ -118,3 +118,21 @@ table.featureLayer p{
     line-height:  20px;
     padding: 0px 4px 0px 4px; 
 }
+
+table.analysis p{
+    font-size:  16px;
+    font-family:  Georgia, serif;
+    font-style: italic;
+    line-height:  20px;
+    padding: 0px 4px 0px 4px; 
+}
+
+#radius{
+    width: 30px;
+}
+
+input {
+    border: 1px solid #b0b0b0;
+    color: #000000;
+    padding: 3px 5px 4px;
+}
