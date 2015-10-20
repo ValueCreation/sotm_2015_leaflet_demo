@@ -1,9 +1,12 @@
 
-	var map, basemapLayer, amenityLayer, amenityClusterLayer, amenityHeatmapLayer, circleLayer, marker;
+	var map, basemapLayer, amenityLayer, amenityClusterLayer, amenityHeatmapLayer, circleLayer, marker, fire_stationLayer, fireStation_or_vendingMachineLayer;
 	var enable_click, click_flg;
 	var features = [];
     var circleMarkers = [];
     var sizuoka_osm_point_url = 'http://services.arcgis.com/wlVTGRSYTzAbjjiC/arcgis/rest/services/sizuoka_osm_point/FeatureServer/0';
+
+    var fire_station = "https://gist.githubusercontent.com/ValueCreation/7ed5633114f480acfc77/raw/2333735423107a4e19fdcdc7ac422f8417c0d2bc/fire_station.geojson";
+    var fireStation_or_vendingMachine = "https://gist.githubusercontent.com/ValueCreation/d62a74e6a29f3b3fddb5/raw/29c8a5457b55d2c57c846217613df6e863801975/fireStation_or_vendingMachine.geojson";
 
     function init() {
 	
@@ -36,13 +39,59 @@
 					              });
 
 	    map = L.map('map', {
-	                layers: [basemapLayer, amenityLayer]
+	                layers: [basemapLayer]
 	              });
 		
 		map.setView([34.98, 138.38], 10);
-
+        
+        // geojson の表示
+		$.getJSON(fireStation_or_vendingMachine, function(data) {
+            fireStation_or_vendingMachineLayer = L.geoJson(data, {
+		        pointToLayer: function (feature, latlng) {
+				        return L.circleMarker(latlng, {
+					       radius: 8,
+					       fillColor: getColor(feature.properties.amenity),
+					       color: "#000",
+					       weight: 1,
+					       opacity: 1,
+					       fillOpacity: 0.8
+				        });
+			        },
+                   	onEachFeature: onEachFeature
+            	});
+            map.addLayer(fireStation_or_vendingMachineLayer);
+        });
+        
+        $.getJSON(fire_station, function(data) {
+            fire_stationLayer = L.geoJson(data, {
+		        pointToLayer: function (feature, latlng) {
+				        return L.circleMarker(latlng, {
+					       radius: 8,
+					       fillColor: getColor(feature.properties.amenity),
+					       color: "#000",
+					       weight: 1,
+					       opacity: 1,
+					       fillOpacity: 0.8
+				        });
+			        },
+               	onEachFeature: onEachFeature
+            });
+            map.addLayer(fire_stationLayer);
+        });
+        
 		click_flg = false;
 
+	}
+
+	function getColor(amenity) {
+	    return amenity == "fire_station" ? '#DC143C' :
+	           amenity == "vending_machine"  ? '#0000FF' :
+	                      '#228b22';
+	}
+
+	function onEachFeature(feature, layer) {
+        var popupContent = "Amenity: " + feature.properties.amenity + "<br/>Name: " + feature.properties.name;
+		layer.bindPopup(popupContent);
 	}
 
 	function blockUI() {
@@ -101,6 +150,22 @@
        }
     });
     
+    $('#fire_station').change(function() {
+       if ($(this).is(':checked')) {
+         map.addLayer(fire_stationLayer);
+       } else {
+         map.removeLayer(fire_stationLayer);
+       }
+    });
+
+    $('#fireStation_or_vendingMachine').change(function() {
+       if ($(this).is(':checked')) {
+         map.addLayer(fireStation_or_vendingMachineLayer);
+       } else {
+         map.removeLayer(fireStation_or_vendingMachineLayer);
+       }
+    });
+
     // 検索
     $("#amenityBtn").click(function() {
 
@@ -111,7 +176,7 @@
 	            amenityLayer.setWhere('amenity=\'' + $("#select_amenity").val() + '\' and name LIKE\'%' + $("#amenityName").val() + '%\'',
 	     	                              function() {
                                              $.unblockUI(); 
-                                          }
+                                          }                                          
             	                      );
 	        } else {
 	     	    amenityLayer.setWhere('amenity=\'' + $("#select_amenity").val() + '\'', 

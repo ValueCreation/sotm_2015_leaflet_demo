@@ -32,23 +32,23 @@
         <!-- Load Heatmap Feature Layer from CDN -->
         <script src="//cdn.jsdelivr.net/leaflet.esri.heatmap-feature-layer/1.0.2/esri-leaflet-heatmap-feature-layer.js"></script>
 
-		<noscript>
-			<style>
-				.st-accordion ul li{
-					height:auto;
-				}
-				.st-accordion ul li > a span{
-					visibility:hidden;
-				}
-			</style>
-		</noscript>
+    		<noscript>
+  			<style>
+  				.st-accordion ul li{
+  					height:auto;
+  				}
+  				.st-accordion ul li > a span{
+  					visibility:hidden;
+  				}
+  			</style>
+  	  	</noscript>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
         <script type="text/javascript" src="js/lib/jquery.blockUI.js"></script>
-		<script type="text/javascript" src="js/lib/jquery.accordion.js"></script>
-		<script type="text/javascript" src="js/lib/jquery.easing.1.3.js"></script>
+		    <script type="text/javascript" src="js/lib/jquery.accordion.js"></script>
+		    <script type="text/javascript" src="js/lib/jquery.easing.1.3.js"></script>
         <script type="text/javascript">
             $(function() {
-				$('#st-accordion').accordion();
+				       $('#st-accordion').accordion();
             });
         </script>
     </head>
@@ -86,22 +86,44 @@
                               </table>
                             </div>
                         </li>
+
                         <li>
-                            <a href="#">Osm Data<span class="st-arrow">Open or Close</span></a>
+                            <a href="#">GeoJSON<span class="st-arrow">Open or Close</span></a>
                             <div class="st-content">
                               <table class="featureLayer">
                               <tr>
-                                <td width="20px"><input type="checkbox" id="amenity" name="category" value="osm"  checked="checked" /></td>
+                                <td width="20px"><input type="checkbox" id="fire_station" name="category" value="osm"  checked="checked" /></td>
+                                <td><p>消火器 (浜松市)</p></td>
+                              </tr>
+                              <tr><td></td><td><br/></td></tr>
+                              <tr>
+                                <td width="20px"><input type="checkbox" id="fireStation_or_vendingMachine" name="category" value="osm"  checked="checked" /></td>
+                                <td><p>消火器/自販機 (浜松市)</p></td>
+                              </tr>
+                              </table>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="#">OsmData<span class="st-arrow">Open or Close</span></a>
+                            <div class="st-content">
+                              <table class="featureLayer">
+                              <tr>
+                                <td width="20px"><input type="checkbox" id="amenity" name="category" value="osm" /></td>
                                 <td><p>静岡県施設</p></td>
                               </tr>
 　　　　　　　　　　　　　　　　　　　　　　　　</table>
-                              <br/>
                               <table class="featureLayer">
                               <tr>
                               <td><p>施設:</p></td>
                               <td>
                                   <select id="select_amenity">
                                     <option value='school' selected="selected">school</option>
+                                    <option value='cafe'>cafe</option>
+                                    <option value='fast_food'>fast_food</option>
+                                    <option value='restaurant'>restaurant</option>
+                                    <option value='college'>college</option>
+                                    <option value='parking'>parking</option>      
                                     <option value='doctors'>doctors</option>
                                     <option value='townhall'>townhall</option>
                                     <option value='post_office'>post_office</option>
@@ -109,13 +131,21 @@
                                   </select>
                               </td>
                               </tr>
-                              <tr><td><br/></td><td></td></tr>
                               <tr>
-                              <td><p>名前:</p></td>
-                              <td><input type="text" name="amenityName" id="amenityName" value="" /></td>                              
+                                <td><br/></td><td></td></tr>
+                              <tr>
+                              　　<td><p>名前:</p></td>
+                              　　<td><input type="text" name="amenityName" id="amenityName" value="" /></td>                              
                               </tr>
-                              <tr><td><br/></td><td></td></tr>
-                              <td></br></td>
+                              <tr>
+                                <td><br/></td><td><br/></td>
+                              </tr>
+                              <!--
+                              <tr>
+                              　　<td><p>件数:</p></td>
+                              　　<td><p><span class="number_1">0</span>件</p></td>
+　                             </tr>
+                              -->
                               <td><input type="button" name="amenityBtn" id="amenityBtn" value="検索" /></td>                              
                               </tr>
                               </table> 
