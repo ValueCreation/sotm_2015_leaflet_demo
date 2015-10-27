@@ -1,3 +1,3 @@
 # sotm 2015 leaflet demo
 
-* [esri leaflet demo](https://ynunokawa.github.io/esri-react-js/esri-fixed-data-table/)
+* [esri leaflet demo](http://valuecreation.github.io/sotm_2015_leaflet_demo/)
