@@ -1,10 +1,10 @@
 
-	var map, basemapLayer, amenityLayer, amenityClusterLayer, amenityHeatmapLayer, circleLayer, marker, fire_stationLayer, fireStation_or_vendingMachineLayer;
+	var map, basemapLayer, amenityLayer, polygonLayer, amenityClusterLayer, amenityHeatmapLayer, circleLayer, marker, fire_stationLayer, fireStation_or_vendingMachineLayer;
 	var enable_click, click_flg;
 	var features = [];
     var circleMarkers = [];
     var sizuoka_osm_point_url = 'http://services.arcgis.com/wlVTGRSYTzAbjjiC/arcgis/rest/services/sizuoka_osm_point/FeatureServer/0';
-
+    var sizuoka_osm_polygon_url = "http://services.arcgis.com/wlVTGRSYTzAbjjiC/arcgis/rest/services/sizuoka_osm_polygon/FeatureServer/0";
     var fire_station = "https://gist.githubusercontent.com/ValueCreation/7ed5633114f480acfc77/raw/2333735423107a4e19fdcdc7ac422f8417c0d2bc/fire_station.geojson";
     var fireStation_or_vendingMachine = "https://gist.githubusercontent.com/ValueCreation/d62a74e6a29f3b3fddb5/raw/29c8a5457b55d2c57c846217613df6e863801975/fireStation_or_vendingMachine.geojson";
 
@@ -21,6 +21,14 @@
 
 	    amenityLayer.bindPopup(function(features) {
 	        return "Amenity: " + features.properties.amenity + "<br/>Name: " + features.properties.name;
+	    });
+
+	    polygonLayer = L.esri.featureLayer({
+	                                  url: sizuoka_osm_polygon_url
+	                       });
+
+	    polygonLayer.bindPopup(function(features) {
+	        return "Building: " + features.properties.building + "<br/>Name: " + features.properties.name;
 	    });
 
 	    // クラスター
@@ -42,7 +50,7 @@
 	                layers: [basemapLayer]
 	              });
 		
-		map.setView([34.98, 138.38], 10);
+		map.setView([34.700679, 137.732041], 15);
         
         // geojson の表示
 		$.getJSON(fireStation_or_vendingMachine, function(data) {
@@ -148,8 +156,17 @@
        } else {
          map.removeLayer(amenityLayer);
        }
+       polygonLayer
     });
     
+    $('#building').change(function() {
+       if ($(this).is(':checked')) {
+         map.addLayer(polygonLayer);
+       } else {
+         map.removeLayer(polygonLayer);
+       }
+    });
+
     $('#fire_station').change(function() {
        if ($(this).is(':checked')) {
          map.addLayer(fire_stationLayer);
