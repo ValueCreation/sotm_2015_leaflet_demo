@@ -24,7 +24,12 @@
 	    });
 
 	    polygonLayer = L.esri.featureLayer({
-	                                  url: sizuoka_osm_polygon_url
+	                                  url: sizuoka_osm_polygon_url,
+	                                  simplifyFactor: 0.5,
+	                                  precision: 5,
+	                                  style:function(feature) {
+	                                  	return {color:'blue', weight:1};
+	                                  }
 	                       });
 
 	    polygonLayer.bindPopup(function(features) {
