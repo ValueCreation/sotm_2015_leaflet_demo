@@ -32,6 +32,9 @@
         <!-- Load Heatmap Feature Layer from CDN -->
         <script src="//cdn.jsdelivr.net/leaflet.esri.heatmap-feature-layer/1.0.2/esri-leaflet-heatmap-feature-layer.js"></script>
 
+        <!-- Load Esri Leaflet Renderers -->
+        <script src="//cdn-geoweb.s3.amazonaws.com/esri-leaflet-renderers/0.0.1-beta.3/esri-leaflet-renderers.js"></script>
+
     		<noscript>
   			<style>
   				.st-accordion ul li{
@@ -82,6 +85,27 @@
                               <tr>
                                 <td><input type="radio" id="basemap5" name="optionsBasemap" value="Imagery" /></td>
                                 <td><p>衛星写真</p></td>
+                              </tr>
+                              <tr>
+                                <td><input type="radio" id="basemap6" name="optionsBasemap" value="DarkGray" /></td>
+                                <td><p>DarkGray</p></td>
+                              </tr>
+                              </table>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="#">統計・メッシュデータ<span class="st-arrow">Open or Close</span></a>
+                            <div class="st-content">
+                              <table class="featureLayer">
+                              <tr>
+                                <td width="20px"><input type="checkbox" id="toukei_tokyo" name="category" value="osm" /></td>
+                                <td><p>統計データ</p></td>
+                              </tr>
+                              <tr><td></td><td><br/></td></tr>
+                              <tr>
+                                <td width="20px"><input type="checkbox" id="toukei_mesh" name="category" value="osm" /></td>
+                                <td><p>メッシュデータ</p></td>
                               </tr>
                               </table>
                             </div>
@@ -140,13 +164,13 @@
                               <tr>
                                 <td><br/></td><td><br/></td>
                               </tr>
-                              <!--
+<!--                               
                               <tr>
                               　　<td><p>件数:</p></td>
                               　　<td><p><span class="number_1">0</span>件</p></td>
 　                             </tr>
-                              -->
-                              <td><input type="button" name="amenityBtn" id="amenityBtn" value="検索" /></td>                              
+                              
+ -->                              <td><input type="button" name="amenityBtn" id="amenityBtn" value="検索" /></td>                              
                               </tr>                              
                               </table>
                               <br/>

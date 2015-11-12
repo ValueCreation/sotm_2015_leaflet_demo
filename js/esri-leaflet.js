@@ -8,11 +8,22 @@
     var fire_station = "https://gist.githubusercontent.com/ValueCreation/7ed5633114f480acfc77/raw/2333735423107a4e19fdcdc7ac422f8417c0d2bc/fire_station.geojson";
     var fireStation_or_vendingMachine = "https://gist.githubusercontent.com/ValueCreation/d62a74e6a29f3b3fddb5/raw/29c8a5457b55d2c57c846217613df6e863801975/fireStation_or_vendingMachine.geojson";
 
+    var mesh_tokyo_url = "http://services.arcgis.com/wlVTGRSYTzAbjjiC/arcgis/rest/services/mesh_tokyo/FeatureServer/0";
+    var toukei_tokyo_url = "http://services.arcgis.com/wlVTGRSYTzAbjjiC/arcgis/rest/services/toukei_tokyo/FeatureServer/0";
+
     function init() {
 	
 		basemapLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 		                                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 		                   });
+
+	    toukeiTokyoLayer = L.esri.featureLayer({
+	                                  url: toukei_tokyo_url
+	                       });
+
+	    meshTokyoLayer = L.esri.featureLayer({
+	                                  url: mesh_tokyo_url
+	                       });
 
 	    amenityLayer = L.esri.featureLayer({
 	                                  url: sizuoka_osm_point_url,
@@ -151,17 +162,35 @@
 	    } else if ($("#basemap5:checked").val()) {
 	    	basemapLayer = L.esri.basemapLayer('Imagery');
             map.addLayer(basemapLayer);
+	    } else if ($("#basemap6:checked").val()) {
+	    	basemapLayer = L.esri.basemapLayer('DarkGray');
+            map.addLayer(basemapLayer);
 	    }
 	});
     
-    // レイヤーのON、OFF
+    // レイヤーのON、OFF  
+    $('#toukei_tokyo').change(function() {
+       if ($(this).is(':checked')) {
+         map.addLayer(toukeiTokyoLayer);
+       } else {
+         map.removeLayer(toukeiTokyoLayer);
+       }
+    });
+
+    $('#toukei_mesh').change(function() {
+       if ($(this).is(':checked')) {
+         map.addLayer(meshTokyoLayer);
+       } else {
+         map.removeLayer(meshTokyoLayer);
+       }
+    });
+
     $('#amenity').change(function() {
        if ($(this).is(':checked')) {
          map.addLayer(amenityLayer);
        } else {
          map.removeLayer(amenityLayer);
        }
-       polygonLayer
     });
     
     $('#building').change(function() {
